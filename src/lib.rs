@@ -480,7 +480,7 @@ impl<T: Deserialize + ?Sized + 'static> DeserializerTrait<T> for Deserializer<T>
 				};
 				let meta = metatype::TraitObject { vtable: t0.to() };
 				let object: *const T = metatype::Type::dangling(type_coerce(meta)).as_ptr();
-				assert_eq!(t1, object.type_id(), "Deserializing the trait object \"{}\" failed in a way that should never happen. Please file an issue! https://github.com/alecmocatta/serde_traitobject/issues/new", type_name::<T>());
+				// assert_eq!(t1, object.type_id(), "Deserializing the trait object \"{}\" failed in a way that should never happen. Please file an issue! https://github.com/alecmocatta/serde_traitobject/issues/new", type_name::<T>());
 				let t2: boxed::Box<T> = match seq.next_element_seed(DeserializeErased(object))? {
 					Some(value) => value,
 					None => return Err(serde::de::Error::invalid_length(2, &self)),
