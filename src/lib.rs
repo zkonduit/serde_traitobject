@@ -392,6 +392,7 @@ impl<T: Serialize + ?Sized + 'static> SerializerTrait<T> for Serializer<T> {
 		} else {
 			panic!()
 		};
+
 		let mut tup = serializer.serialize_tuple(3)?;
 		// We're making the assumption that the vtable is positioned the same
 		// relative to the base vtable in every invocation, through e.g. being
@@ -468,6 +469,7 @@ impl<T: Deserialize + ?Sized + 'static> DeserializerTrait<T> for Deserializer<T>
 			where
 				A: serde::de::SeqAccess<'de>,
 			{
+				// Changes: remove validation check
 				let t0: Vtable<T> = match seq.next_element()? {
 					Some(value) => value,
 					None => return Err(serde::de::Error::invalid_length(0, &self)),
@@ -483,6 +485,7 @@ impl<T: Deserialize + ?Sized + 'static> DeserializerTrait<T> for Deserializer<T>
 					Some(value) => value,
 					None => return Err(serde::de::Error::invalid_length(2, &self)),
 				};
+
 				Ok(t2)
 			}
 		}
